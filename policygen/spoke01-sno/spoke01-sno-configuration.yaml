@@ -1,0 +1,137 @@
+apiVersion: ran.openshift.io/v1
+kind: PolicyGenTemplate
+metadata:
+  name: "spoke-sno-configuration"
+  namespace: "ztp-site"
+spec:
+  mcp: "master"
+  bindingRules:
+    sites: "Montreal"
+  sourceFiles:
+# Label 
+    # - fileName: label/nodes.yaml
+    #   policyName: "labeling-policy"
+    #   remediationAction: enforce    
+# # # Logging Operator Installation
+#     - fileName: ClusterLogNS.yaml
+#       policyName: "logging-policy"
+#       remediationAction: enforce
+#     - fileName: ClusterLogOperGroup.yaml
+#       policyName: "logging-policy"
+#       remediationAction: enforce
+#     - fileName: ClusterLogSubscription.yaml
+#       spec:
+#         installPlanApproval: Auto
+#       policyName: "logging-policy"
+#       remediationAction: enforce
+#     - fileName: ClusterLogOperatorStatus.yaml
+#       policyName: "logging-policy"
+#       remediationAction: enforce
+#     - fileName: logging/clusterlogging.yaml
+#       policyName: "logging-policy"
+#       remediationAction: enforce
+#CNV Operator ###
+    - fileName: cnv/cnv-ns.yaml
+      remediationAction: enforce
+      policyName: "cnv-operator"
+    - fileName: cnv/cnv-subscription.yaml
+      remediationAction: enforce
+      policyName: "cnv-operator"
+    - fileName: cnv/cnv-instance.yaml
+      remediationAction: enforce
+      policyName: "cnv-operator"
+    - fileName: cnv/cnv-operatorgroup.yaml
+      remediationAction: enforce
+      policyName: "cnv-operator"
+# LVM OPerator ###
+    - fileName: lvm/ns.yaml
+      remediationAction: enforce
+      policyName: "lvm-operator"
+    - fileName: lvm/subscription.yaml
+      remediationAction: enforce
+      policyName: "lvm-operator"
+    - fileName: lvm/instance.yaml
+      remediationAction: enforce
+      policyName: "lvm-operator"
+
+# PAO Configuration
+    # - fileName: pao/performance-profile-sno.yaml
+    #   remediationAction: enforce
+    #   policyName: "performance-profile"
+
+# # Tuned Profile
+#     - fileName: TunedPerformancePatch.yaml
+#       policyName: "performance-profile"
+#       spec:
+#         profile:
+#           - name: performance-patch
+#             # The cmdline_crash CPU set must match the 'isolated' set in the PerformanceProfile above
+#             data: |
+#               [main]
+#               summary=Configuration changes profile inherited from performance created tuned
+#               include=openshift-node-performance-openshift-node-performance-profile
+#               [bootloader]
+#               cmdline_crash=nohz_full=4-23,28-47
+#               [scheduler]
+#               group.ice-ptp=0:f:10:*:ice-ptp.*
+#               [service]
+#               service.stalld=start,enable
+#               service.chronyd=stop,disable
+
+# SRIOV Configuration
+#     - fileName: SriovSubscription.yaml
+#       spec:
+#         installPlanApproval: Auto
+#       policyName: "sriov-operator"
+#       remediationAction: enforce
+#     - fileName: SriovSubscriptionNS.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: SriovSubscriptionOperGroup.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: SriovOperatorStatus.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: sriov/ns.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: sriov/sriovnetwork-dpdk-f1.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: sriov/sriovnetwork-du-fh.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: sriov/sriovnetworknodepolicy-dpdk-f1.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+#     - fileName: sriov/sriovnetworknodepolicy-du-fh.yaml
+#       remediationAction: enforce
+#       policyName: "sriov-operator"
+
+# # PTP Operator Installation and Configuration
+#     - fileName: PtpSubscription.yaml
+#       spec:
+#         installPlanApproval: Auto
+#       policyName: "ptp-operator"
+#       remediationAction: enforce
+#     - fileName: PtpSubscriptionNS.yaml
+#       policyName: "ptp-operator"
+#       remediationAction: enforce
+#     - fileName: PtpSubscriptionOperGroup.yaml
+#       policyName: "ptp-operator"
+#       remediationAction: enforce
+#     - fileName: PtpOperatorStatus.yaml
+#       policyName: "ptp-operator"
+#       remediationAction: enforce
+#     - fileName: ptp/ptpconfig-slave-ptp.yaml
+#       policyName: "ptp-config"
+#       remediationAction: enforce
+      
+#     # SIROV-FEC
+#     - fileName: sriovfec/sriovfec-subscription.yaml
+#       remediationAction: enforce
+#       policyName: "sriovfec-operator"
+#     - fileName: sriovfec/sriovfecclusterconfig.yaml
+#       remediationAction: enforce
+#       policyName: "sriovfec-operator"

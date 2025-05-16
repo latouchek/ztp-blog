@@ -1,0 +1,22 @@
+﻿apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetwork
+metadata:
+  name: du-sriov-dpdk-f1
+  namespace: openshift-sriov-network-operator
+spec:
+  ipam: |
+    {
+      "type": "host-local",
+      "subnet": "10.61.7.0/24",
+      "rangeStart": "10.61.7.23",
+      "rangeEnd": "10.61.7.23",
+      "routes": [{
+        "dst": "0.0.0.0/0"
+      }],
+      "gateway": "10.61.7.1"
+    }
+  vlan: 107
+  networkNamespace: mvrp-du1
+  resourceName: du_sriov_dpdk_f1
+  spoofChk: 'off'
+  trust: 'off'

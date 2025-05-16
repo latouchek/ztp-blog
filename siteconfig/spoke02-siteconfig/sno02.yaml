@@ -1,0 +1,116 @@
+apiVersion: siteconfig.open-cluster-management.io/v1alpha1
+kind: ClusterInstance
+metadata:
+  name: "spoke02-cluster"
+  namespace: "spoke02-cluster"
+spec:
+  clusterName: "spoke02-cluster"
+  clusterImageSetNameRef: "img4.17.23-x86-64-appsub"
+  baseDomain: "lab-example.local"
+  machineNetwork:
+    - cidr: "10.95.172.0/24"
+  networkType: "OVNKubernetes"
+  sshPublicKey: "your public ssh key"
+  pullSecretRef:
+    name: "pull-secret"
+  additionalNTPSources:
+    - "10.95.85.143"
+  extraLabels:
+    ManagedCluster:
+      environment: "production"
+      region: "europe-west1"
+      team: "devops"
+      application: "skynet"
+      sites: "Montreal"
+  templateRefs:
+    - name: "ai-cluster-templates-v1"
+      namespace: "open-cluster-management"
+  nodes:
+    - role: "master"
+      # crAnnotations:
+      #     add:
+      #       BareMetalHost:
+      #         bmac.agent-install.openshift.io/remove-agent-and-node-on-delete: true
+      hostName: "spoke02-cluster"
+      bmcAddress: "idrac-virtualmedia://10.95.172.10/redfish/v1/Systems/System.Embedded.1"
+      bmcCredentialsName:
+        name: "sno-secret-spoke02"
+      bootMACAddress: "14:23:F2:D6:0E:A0"
+      bootMode: "UEFI"
+      automatedCleaningMode: "metadata"
+      cpuArchitecture: "x86_64"
+      nodeLabels:
+        node-role.kubernetes.io/master: ""
+        cluster.ocs.openshift.io/openshift-storage: ""
+      templateRefs:
+        - name: "ai-node-templates-v1"
+          namespace: "open-cluster-management"
+      nodeNetwork:
+        interfaces:
+          - name: "ens1f0np0"
+            macAddress: "14:23:F2:D6:0E:A0"
+          - name: "ens1f1np1"
+            macAddress: "14:23:F2:D6:0E:A1"
+          - name: "eno12409np1"
+            macAddress: "14:23:F2:D5:EB:31"
+          - name: "eno12399np0"
+            macAddress: "14:23:F2:D5:EB:30"
+        config:
+          dns-resolver:
+            config:
+              server:
+                - "10.95.172.16"
+          interfaces:
+            - name: "ens1f0np0"
+              type: "ethernet"
+              state: "up"
+              ipv4:
+                enabled: false
+                dhcp: false
+              ipv6:
+                enabled: false
+            - name: "ens1f0np0.146"
+              description: "External API net"
+              type: "vlan"
+              state: "up"
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: "10.95.172.38"
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+              vlan:
+                base-iface: "ens1f0np0"
+                id: 146
+            - name: "ens1f1np1"
+              type: "ethernet"
+              state: "down"
+              ipv4:
+                enabled: false
+                dhcp: false
+              ipv6:
+                enabled: false
+            - name: "eno12409np1"
+              type: "ethernet"
+              state: "down"
+              ipv4:
+                enabled: false
+                dhcp: false
+              ipv6:
+                enabled: false
+            - name: "eno12399np0"
+              type: "ethernet"
+              state: "down"
+              ipv4:
+                enabled: false
+                dhcp: false
+              ipv6:
+                enabled: false
+          routes:
+            config:
+              - destination: "0.0.0.0/0"
+                next-hop-address: "10.95.172.1"
+                next-hop-interface: "ens1f0np0.146"
+                table-id: 254

@@ -1,0 +1,12 @@
+﻿---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetwork
+metadata:
+    name: sriov-nw-du-fh
+    namespace: openshift-sriov-network-operator
+spec:
+    networkNamespace: mvrp-du1
+    resourceName: du_fh
+    spoofChk: 'off'
+    trust: 'off'
+    

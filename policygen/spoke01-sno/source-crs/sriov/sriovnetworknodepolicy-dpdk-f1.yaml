@@ -1,0 +1,19 @@
+﻿apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkNodePolicy
+metadata:
+  name: du-sriov-dpdk-f1
+  namespace: openshift-sriov-network-operator
+spec:
+  nodeSelector:
+    feature.node.kubernetes.io/network-sriov.capable: 'true'
+  priority: 99
+  nicSelector:
+    pfNames:
+      - 'ens2f2#0-0'
+  mtu: 1500
+  deviceType: vfio-pci
+  isRdma: false
+  linkType: eth
+  needVhostNet: true
+  resourceName: du_sriov_dpdk_f1
+  numVfs: 2

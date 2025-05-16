@@ -1,0 +1,37 @@
+kind: SriovFecClusterConfig
+apiVersion: sriovfec.intel.com/v2
+metadata:
+  name: config
+  namespace: openshift-operators
+spec:
+  acceleratorSelector:
+    pciAddress: 0000:8a:00.0
+  drainSkip: true
+  nodeSelector:
+    kubernetes.io/hostname: xr11-1-vdu
+  physicalFunction:
+    bbDevConfig:
+      acc100:
+        downlink4G:
+          aqDepthLog2: 4
+          numAqsPerGroups: 16
+          numQueueGroups: 0
+        downlink5G:
+          aqDepthLog2: 4
+          numAqsPerGroups: 16
+          numQueueGroups: 4
+        maxQueueSize: 1024
+        numVfBundles: 3
+        pfMode: false
+        uplink4G:
+          aqDepthLog2: 4
+          numAqsPerGroups: 16
+          numQueueGroups: 0
+        uplink5G:
+          aqDepthLog2: 4
+          numAqsPerGroups: 16
+          numQueueGroups: 4
+    pfDriver: pci-pf-stub
+    vfAmount: 3
+    vfDriver: vfio-pci
+  priority: 1
