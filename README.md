@@ -1,4 +1,4 @@
-# **Zero Touch Provisioning (ZTP) with Argo CD on OpenShift**
+# **Deploying OpenShift At Scale with Zero Touch Provisioning (ZTP)** 
 
 > **Goal →** Build **production‑ready OpenShift clusters** the GitOps way—no ISO juggling, no console cables, just declarative YAML in Git.
 
